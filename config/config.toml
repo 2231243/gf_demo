@@ -1,0 +1,38 @@
+# HTTP Server
+[server]
+	Address     = ":80"
+	ServerRoot  = "public"
+	ServerAgent = "gf-app"
+	LogPath     = "/tmp/log/gf-app/server"
+	DumpRouterMap = true
+
+
+# Logger.
+[logger]
+    Path        = "/tmp/log/gf-app"
+    Level       = "all"
+    StdoutPrint = true
+    HeaderPrint = true
+
+[redis]
+    default = "127.0.0.1:6379,0"
+# Template.
+[viewer]
+    Path        = "template"
+    DefaultFile = "index.html"
+    Delimiters  =  ["${", "}"]
+
+# RpcClient
+[rpc]
+    [[rpc.addr]]
+    address = "127.0.0.1:50051"
+
+# Database.
+[database]
+    link  = "mysql:root:12345678@tcp(127.0.0.1:3306)/test"
+    debug = true
+    # Database logger.
+    [database.logger]
+        Path   = "/tmp/log/gf-app/sql"
+        Level  = "all"
+        Stdout = true

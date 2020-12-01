@@ -1,0 +1,81 @@
+swagger: '2.0'
+info:
+  description: '中公云信管理后台接口'
+  version: 1.0.0
+  title: ofc_admin
+host: localhost:8080
+basePath: /api/v1
+tags:
+  - name: message
+    description: IM 消息相关的接口
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /message/getAppDailyStats:
+    get:
+      tags:
+        - message
+      summary: 获取应用IM发送消息的数据统计（天）
+      operationId: GetAppDailyMessageStats
+      parameters:
+        - in: query
+          name: appkey
+          description: 应用APPKEY
+          required: true
+          type: string
+        - in: query
+          name: start_time
+          type: string
+        - in: query
+          name: end_time
+          type: string
+        - in: query
+          name: accid
+          type: string
+          description: 用户ID
+      responses:
+        200:
+          description: 响应数据
+          schema:
+            $ref: '#/definitions/GetAppDailyMessageStatsResponse'
+
+definitions:
+  JsonResponse:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string
+
+  GetAppDailyMessageStatsResponse:
+    allOf:
+      - $ref: "#/definitions/JsonResponse"
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              stats:
+                type: array
+                items:
+                  $ref: "#/definitions/AppDailyMessageStatsModel"
+  AppDailyMessageStatsModel:
+    type: object
+    properties:
+      t:
+        type: string
+        description: 日期
+      count:
+        type: integer
+        format: int64
+        description: 每日发送消息的数量
